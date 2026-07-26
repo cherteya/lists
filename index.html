@@ -3,927 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Игровая</title>
-    <!-- Подключаем новые сказочные и милые шрифты -->
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    <title>Архивы Чатика</title>
+    <!-- 🔥 СКАЗОЧНЫЕ ШРИФТЫ САЙТА 🔥 -->
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700;900&family=Nunito:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
     <style>
-        /* --- ВОЛШЕБНАЯ СКАЗОЧНАЯ ПАЛИТРА --- */
+        /* 🎨 ВОЛШЕБНАЯ ПАЛИТРА И ПЕРЕМЕННЫЕ */
         :root {
-            --bg-deep: #130f1c;         /* Глубокий ночной цвет */
-            --bg-sunset: #38255c;       /* Магический фиолетовый */
-            --bg-velvet: #221836;       /* Мягкий фон панелей */
+            --bg-deep: #130f1c;         
+            --bg-sunset: #38255c;       
+            --bg-velvet: #221836;       
             
-            --mint-light: #d1fce0;      /* Светло-мятный */
-            --mint-main: #5cf28a;       /* Основной цвет рожек и глаз */
-            --mint-dark: #278c47;       /* Темно-зеленый для теней */
+            --mint-light: #d1fce0;      
+            --mint-main: #5cf28a;       
+            --mint-dark: #278c47;       
             
-            --warm-star: #fce8a1;       /* Теплый свет (как от гирлянды или лампы) */
-            --cute-pink: #ff8fa3;       /* Нежный акцент */
-            
-            --text-main: #f0edf5;       /* Основной текст */
-            --text-muted: #b5adc4;      /* Приглушенный текст */
+            --text-main: #f0edf5;       
+            --text-muted: #b5adc4;      
             
             --font-title: 'Comfortaa', cursive;
             --font-text: 'Nunito', sans-serif;
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             background-color: var(--bg-deep);
-            background-image: url('background.png');
+            background-image: radial-gradient(circle at 50% 50%, var(--bg-sunset) 0%, var(--bg-deep) 100%), url('background.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
             color: var(--text-main);
             font-family: var(--font-text);
-            margin: 0;
-            padding: 50px 20px;
             min-height: 100vh;
-            background-attachment: fixed;
-            overflow-x: hidden; 
-        }
-
-        /* ИДЕАЛЬНАЯ ПРИВЯЗКА ДЕВУШЕК К КОНТЕЙНЕРУ */
-        .main-wrapper {
             display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            align-items: stretch;
+            overflow-x: hidden;
+            padding: 40px 20px;
+        }
+
+        /* --- ЗАГОЛОВОК ПОРТАЛА --- */
+        .portal-header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInDown 1s ease forwards;
+        }
+
+        .portal-header h1 {
+            font-family: var(--font-title);
+            font-size: 56px;
+            font-weight: 900;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.6), 0 0 20px rgba(92, 242, 138, 0.4);
+            margin-bottom: 15px;
+        }
+
+        .portal-header h1::before, .portal-header h1::after {
+            content: '✨';
+            display: inline-block;
+            font-size: 34px;
+            color: var(--mint-main);
+            margin: 0 15px;
+            filter: drop-shadow(0 0 10px var(--mint-main));
+        }
+
+        .portal-header p {
+            font-size: 20px;
+            color: var(--mint-light);
+            font-weight: 600;
+            opacity: 0.9;
+            letter-spacing: 1px;
+        }
+
+        /* --- КАРТОЧКИ ВЫБОРА --- */
+        .cards-wrapper {
+            display: flex;
+            gap: 50px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
             width: 100%;
         }
 
-        .girl-col {
-            width: 0; 
-            position: relative;
-            z-index: 999;
-            pointer-events: none; 
-        }
-
-        .sticky-box {
-            position: sticky;
-            top: 50vh; 
-            width: 0;
-            height: 0;
-            overflow: visible;
-        }
-
-        .girl-img {
-            position: absolute;
-            height: 650px; 
-            top: -325px; 
-            filter: drop-shadow(0 8px 25px rgba(0,0,0,0.5)); 
-        }
-
-        .left-img { right: -185px; }
-        .right-img { left: -175px; top: -365px;}
-
-        @media (max-width: 1550px) {
-            .girl-col { display: none; }
-        }
-
-        /* --- ГЛАВНЫЙ КОНТЕЙНЕР --- */
-        .container {
-            width: 100%;
-            max-width: 1150px;
-            min-height: 80vh; 
-            background: rgba(19, 15, 28, 0.85); 
-            backdrop-filter: blur(12px); 
-            position: relative;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 30px rgba(92, 242, 138, 0.15); 
+        .portal-card {
+            display: block;
+            text-decoration: none;
+            width: 420px;
+            background: rgba(19, 15, 28, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 2px solid var(--mint-dark);
-            border-radius: 24px;
-            padding: 4px; 
+            border-radius: 28px;
+            padding: 10px;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 20px rgba(92, 242, 138, 0.1);
+            animation: fadeInUp 1s ease forwards;
+            opacity: 0;
+            transform: translateY(30px);
         }
 
-        .container::before {
+        .portal-card:nth-child(1) { animation-delay: 0.2s; }
+        .portal-card:nth-child(2) { animation-delay: 0.4s; }
+
+        /* Внутренняя пунктирная рамка */
+        .portal-card::before {
             content: ''; position: absolute;
-            top: 6px; left: 6px; right: 6px; bottom: 6px;
+            top: 8px; left: 8px; right: 8px; bottom: 8px;
             border: 1px dashed rgba(92, 242, 138, 0.3);
-            border-radius: 18px;
+            border-radius: 20px;
             pointer-events: none; z-index: 10;
+            transition: all 0.4s ease;
         }
 
-        .content-wrapper { 
-            background: rgba(34, 24, 54, 0.8); 
-            position: relative; 
-            z-index: 2; 
-            height: 100%; 
+        .portal-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: var(--mint-main);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 40px rgba(92, 242, 138, 0.3);
+        }
+
+        .portal-card:hover::before {
+            border-color: rgba(92, 242, 138, 0.8);
+        }
+
+        .card-img-wrapper {
+            width: 100%;
+            height: 280px;
             border-radius: 18px;
+            overflow: hidden;
+            position: relative;
+            background: var(--bg-velvet);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            border: 2px solid rgba(92, 242, 138, 0.2);
         }
 
-        /* --- ШАПКА --- */
-        .header {
-            padding: 35px 30px 25px;
+        /* Эмодзи на случай, если картинки нет */
+        .fallback-icon {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 80px;
+            z-index: 1;
+        }
+
+        /* Картинка пользователя (поверх эмодзи) */
+        .card-img {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: 2;
+            transition: transform 0.7s ease, opacity 0.3s ease;
+        }
+
+        .portal-card:hover .card-img {
+            transform: scale(1.08);
+        }
+
+        /* Затемнение при наведении (поверх всего) */
+        .card-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(19, 15, 28, 0.4);
+            z-index: 3;
+            transition: background 0.4s ease;
+            pointer-events: none;
+        }
+
+        .portal-card:hover .card-overlay {
+            background: rgba(92, 242, 138, 0.1);
+        }
+
+        .card-info {
+            padding: 30px 20px 20px;
             text-align: center;
             position: relative;
-            border-bottom: 2px solid rgba(92, 242, 138, 0.2); 
-            background: radial-gradient(circle at 50% 0%, rgba(92, 242, 138, 0.05) 0%, transparent 80%);
-            border-top-left-radius: 18px;
-            border-top-right-radius: 18px;
-        }
-        
-        .header::after {
-            content: '✨'; position: absolute;
-            bottom: -14px; left: 50%; transform: translateX(-50%);
-            color: var(--mint-main); font-size: 20px;
-            background: var(--bg-deep); padding: 0 15px;
-            border-radius: 20px;
-            border: 1px solid rgba(92, 242, 138, 0.3);
-            text-shadow: 0 0 10px var(--mint-main);
+            z-index: 4;
         }
 
-        .header-top h1 { 
+        .card-title {
             font-family: var(--font-title);
-            font-size: 42px; 
-            font-weight: 700; 
-            margin: 0 0 15px 0;
-            position: relative;
-            display: inline-block;
+            font-size: 32px;
+            font-weight: 800;
             color: #ffffff;
-            text-shadow: 0 3px 6px rgba(0,0,0,0.5), 0 0 15px rgba(92, 242, 138, 0.4); 
+            margin-bottom: 10px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+            transition: color 0.3s ease;
         }
 
-        .header-top h1::before, .header-top h1::after {
-            content: '🍃';
-            display: inline-block; font-size: 26px; vertical-align: middle; margin: 0 15px;
-            filter: drop-shadow(0 0 8px rgba(92, 242, 138, 0.6)); 
+        .portal-card:hover .card-title {
+            color: var(--mint-light);
+            text-shadow: 0 2px 10px rgba(92, 242, 138, 0.6);
         }
 
-        /* Плашка Владельца */
-        .creator-badge {
-            position: absolute; top: 20px; left: 30px;
-            display: flex; align-items: center; gap: 10px;
-            background: rgba(34, 24, 54, 0.6); 
-            padding: 6px 12px 6px 6px; cursor: pointer;
-            transition: all 0.3s ease; opacity: 0.9;
-            border-radius: 30px;
-            border: 1px solid rgba(92, 242, 138, 0.2);
+        .card-desc {
+            font-size: 16px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            font-weight: 600;
         }
-        .creator-badge:hover { 
-            opacity: 1; 
+
+        /* --- КНОПКА ИНСТРУКЦИИ --- */
+        .help-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
             background: rgba(92, 242, 138, 0.1);
-            border-color: var(--mint-main);
-            box-shadow: 0 0 15px rgba(92, 242, 138, 0.3); 
-        }
-        .creator-badge img { 
-            width: 38px; height: 38px; border-radius: 50%; object-fit: cover; 
-            border: 2px solid var(--mint-main);
+            color: var(--mint-main);
+            text-decoration: none;
+            padding: 12px 35px;
+            border-radius: 30px;
+            border: 2px solid rgba(92, 242, 138, 0.3);
+            font-family: var(--font-title);
+            font-weight: 700;
+            font-size: 18px;
+            margin-top: 50px;
             transition: all 0.3s ease;
-        }
-        .creator-info { display: flex; flex-direction: column; text-align: left; transition: all 0.3s ease; }
-        .creator-label { font-size: 10px; color: var(--mint-light); text-transform: uppercase; letter-spacing: 1px; font-family: var(--font-title); display: none; }
-        .creator-name { font-size: 16px; font-weight: 700; color: #fff; font-family: var(--font-text); transition: text-shadow 0.3s ease;}
-        .creator-badge:hover .creator-name { text-shadow: 0 0 8px rgba(92, 242, 138, 0.8); color: var(--mint-light); }
-
-        /* --- ПАНЕЛЬ УПРАВЛЕНИЯ --- */
-        .controls-panel { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; justify-content: center; margin-top: 5px; }
-        
-        .search-box, .sort-select {
-            background: rgba(19, 15, 28, 0.6); 
-            border: 1px solid rgba(92, 242, 138, 0.3);
-            border-radius: 20px;
-            padding: 8px 16px; color: var(--mint-light); font-size: 15px; font-family: var(--font-text);
-            outline: none; transition: all 0.3s ease; text-align: left; 
-        }
-        .search-box { width: 250px; }
-        .search-box::placeholder { color: var(--text-muted); }
-        .search-box:focus, .sort-select:focus { 
-            border-color: var(--mint-main); 
-            color: #fff; 
-            box-shadow: 0 0 12px rgba(92, 242, 138, 0.2); 
-        }
-        .sort-select { cursor: pointer; appearance: none; padding-right: 30px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%235cf28a' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
-        .sort-select option { background: var(--bg-deep); color: var(--mint-light); }
-
-        /* --- ТАБЛИЦА --- */
-        table { width: 100%; border-collapse: separate; border-spacing: 0; text-align: left; table-layout: auto; }
-        
-        th { 
-            text-align: center; color: var(--mint-main); font-weight: 700; font-size: 13px; 
-            text-transform: uppercase; padding: 25px 12px 15px; 
-            border-bottom: 1px solid rgba(92, 242, 138, 0.2); 
-            font-family: var(--font-title); letter-spacing: 1px;
-        }
-        
-        td { padding: 20px 15px; vertical-align: top; border-bottom: 1px dashed rgba(92, 242, 138, 0.15); }
-        tr:last-child td { border-bottom: none; }
-        
-        td:nth-child(1), td:nth-child(3), td:nth-child(4), td:nth-child(5) { text-align: center; }
-        
-        tr.movie-row { cursor: pointer; transition: all 0.3s ease; position: relative; }
-        tr.movie-row:hover { background-color: rgba(92, 242, 138, 0.04); } 
-        
-        td:nth-child(2) { text-align: left; position: relative; z-index: 1; }
-        td:nth-child(2)::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(ellipse at 25% 50%, rgba(92, 242, 138, 0.05) 0%, transparent 70%);
-            z-index: -1; pointer-events: none; transition: opacity 0.3s ease; opacity: 0;
-        }
-        tr.movie-row:hover td:nth-child(2)::before { opacity: 1; }
-
-        /* Постеры */
-        .poster-wrapper { 
-            width: 140px; 
-            height: 210px; 
-            overflow: hidden; margin: 0 auto; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5); 
-            border: 2px solid rgba(92, 242, 138, 0.4); 
-            border-radius: 12px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .poster-wrapper img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; } 
-
-        .movie-info { display: flex; flex-direction: column; gap: 8px; padding-left: 10px; }
-        
-        /* 🔥 ОБНОВЛЕННАЯ СТРОКА НАЗВАНИЯ И ГОДА В ТАБЛИЦЕ 🔥 */
-        .movie-header { 
-            display: flex; align-items: baseline; gap: 10px; 
-            flex-wrap: nowrap; 
-            max-width: 100%; overflow: hidden; 
-        }
-        .movie-title { 
-            font-size: 24px; font-weight: 700; color: #fff; 
-            font-family: var(--font-title); 
-            text-shadow: 0 2px 5px rgba(0,0,0,0.6); 
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-            flex-shrink: 1; min-width: 0; 
-        }
-        .movie-year { 
-            color: var(--mint-light); font-size: 18px; font-weight: 600; opacity: 0.8; 
-            white-space: nowrap; flex-shrink: 0; 
-        }
-        
-        .copy-btn {
-            background: rgba(92, 242, 138, 0.1); border: 1px solid transparent; color: var(--mint-main); 
-            cursor: pointer; padding: 4px; border-radius: 8px;
-            display: flex; align-items: center; justify-content: center; transition: all 0.3s; 
-            opacity: 0; transform: scale(0.8);
-            position: relative; top: 2px; flex-shrink: 0; 
-        }
-        tr.movie-row:hover .copy-btn { opacity: 1; transform: scale(1); }
-        .copy-btn:hover { background: var(--mint-main); color: var(--bg-deep); box-shadow: 0 0 10px rgba(92, 242, 138, 0.5); } 
-
-        .badges-container { display: flex; align-items: center; gap: 8px; margin: 2px 0; flex-wrap: wrap; }
-        
-        .content-type-badge { background: var(--mint-main); color: var(--bg-deep); padding: 3px 10px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; font-family: var(--font-text); border-radius: 12px; box-shadow: 0 2px 8px rgba(92, 242, 138, 0.3); }
-        .outline-badge, .tmdb-badge { border: 1px solid rgba(92, 242, 138, 0.5); color: var(--mint-light); padding: 3px 10px; font-size: 11px; font-weight: 700; background: rgba(92, 242, 138, 0.05); border-radius: 12px; font-family: var(--font-text); letter-spacing: 0.5px; }
-
-        .movie-genres { font-size: 14px; color: var(--mint-light); font-weight: 600; opacity: 0.9; }
-        .movie-tagline { font-size: 14px; color: var(--text-muted); font-style: italic; border-left: 2px solid var(--cute-pink); padding-left: 8px; }
-        .movie-studios-list { font-size: 12px; color: var(--warm-star); font-weight: 600; letter-spacing: 0.5px; margin-top: 2px; }
-
-        .movie-overview-wrapper { margin-top: 8px; max-height: 48px; overflow: hidden; transition: max-height 0.4s ease; }
-        .movie-overview-text { font-size: 15px; line-height: 1.6; color: var(--text-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-
-        .requester-badge { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; transition: transform 0.3s; margin: 0 auto; }
-        .requester-badge:hover .req-avatar { border-color: var(--mint-light); box-shadow: 0 0 15px rgba(92, 242, 138, 0.5); }
-        .requester-badge:hover .req-name { color: #fff; text-shadow: 0 0 8px rgba(92, 242, 138, 0.6); }
-        .req-avatar { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-title); font-size: 18px; color: var(--bg-deep); font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,0.4); object-fit: cover; border: 2px solid var(--mint-main); transition: all 0.3s; background: var(--mint-light); }
-        .req-name { font-family: var(--font-text); font-size: 14px; font-weight: 700; color: var(--mint-light); transition: all 0.3s; }
-        
-        .date-badge, .time-box { font-size: 14px; color: var(--mint-light); font-weight: 600; background: rgba(19, 15, 28, 0.8); border: 1px solid rgba(92, 242, 138, 0.2); padding: 6px 14px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); display: inline-flex; justify-content: center; align-items: center; gap: 6px; }
-        .date-badge { margin-top: 10px; }
-        .time-box svg { stroke: var(--mint-main); width: 16px; height: 16px; }
-
-        .badge-status { font-size: 11px; font-weight: 800; text-align: center; display: inline-flex; justify-content: center; align-items: center; text-transform: uppercase; letter-spacing: 1px; font-family: var(--font-text); color: var(--bg-deep); border-radius: 10px; padding: 4px 12px; margin-bottom: 8px; background: var(--mint-main); box-shadow: 0 2px 8px rgba(92, 242, 138, 0.4); min-width: 85px; }
-
-        tr.movie-row:has(.poster-wrapper:hover) .poster-wrapper { box-shadow: 0 12px 25px rgba(92, 242, 138, 0.3); border-color: var(--mint-main); }
-        tr.movie-row:has(.poster-wrapper:hover) .movie-overview-wrapper { max-height: 250px; }
-        tr.movie-row:has(.poster-wrapper:hover) .movie-overview-text { -webkit-line-clamp: 20; color: var(--text-main); }
-
-        /* --- МОДАЛЬНОЕ ОКНО --- */
-        .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, rgba(34, 24, 54, 0.9) 0%, rgba(19, 15, 28, 0.95) 100%);
-            backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease;
-        }
-        .modal-overlay.active { display: flex; opacity: 1; }
-
-        .modal-girl-col { width: 0; position: relative; z-index: 1001; pointer-events: none; display: flex; align-items: center; }
-        .modal-girl-img { position: absolute; height: 650px; filter: drop-shadow(0 8px 25px rgba(0,0,0,0.5)); }
-        .modal-left-img { right: -185px; }
-        .modal-right-img { left: -176px; }
-        @media (max-width: 1550px) { .modal-girl-col { display: none; } }
-
-        .modal-content {
-            background: var(--bg-deep); width: 90%; max-width: 1000px; max-height: 85vh; overflow-y: auto; position: relative;
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(92, 242, 138, 0.15); border: 2px solid var(--mint-main); padding: 5px; 
-            border-radius: 24px; transform: scale(0.95) translateY(20px); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); scroll-behavior: smooth; 
-        }
-        .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
-        .modal-inner { background: url(background.png); border-radius: 18px; min-height: 100%; overflow: hidden; }
-
-        .close-btn {
-            position: absolute; top: 15px; right: 20px; color: var(--text-main); cursor: pointer; z-index: 10; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; 
-            transition: all 0.3s; background: rgba(19, 15, 28, 0.5); border-radius: 50%;
-        }
-        .close-btn:hover { color: var(--cute-pink); background: rgba(19, 15, 28, 0.9); transform: rotate(90deg); }
-
-        .modal-hero { 
-            width: 100%; height: 320px; background-color: rgba(34, 24, 54, 1); background-size: cover; background-position: top center; 
-            position: relative; z-index: 1; box-shadow: 0 20px 50px 10px rgba(0, 0, 0, 0.7);
-        }
-        .modal-hero::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, var(--bg-velvet) 0%, transparent 100%); }
-
-        .modal-body { padding: 0 40px 40px 40px; position: relative; margin-top: -120px; z-index: 2; display: flex; gap: 35px; }
-        .modal-poster { width: 200px; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.6); border: 2px solid var(--mint-main); align-self: flex-start; }
-        
-        .modal-info-main { flex: 1; background: rgba(34, 24, 54, 0.98); padding: 25px; border-radius: 20px; border: 1px solid rgba(92, 242, 138, 0.1); overflow: hidden; }
-        
-        /* 🔥 ОБНОВЛЕННАЯ СТРОКА НАЗВАНИЯ В МОДАЛКЕ 🔥 */
-        .modal-title-wrapper { 
-            display: flex; align-items: center; gap: 12px; margin-bottom: 12px; 
-            flex-wrap: nowrap; 
-            max-width: 100%; overflow: hidden; 
-        }
-        .modal-title { 
-            font-family: var(--font-title); font-weight: 700; margin: 0; color: #ffffff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5), 0 0 15px rgba(92, 242, 138, 0.3);
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-            flex-shrink: 1; min-width: 0; 
+            animation: fadeInUp 1s ease 0.6s forwards;
+            opacity: 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
-        .modal-title-wrapper .copy-btn { opacity: 0.8; transform: scale(1); background: rgba(92, 242, 138, 0.15); color: var(--mint-main); padding: 6px; display: flex; align-items: center; justify-content: center; transition: all 0.3s; border: none; cursor: pointer; border-radius: 8px; position: relative; top: 2px; flex-shrink: 0; }
-        .modal-title-wrapper:hover .copy-btn { opacity: 1; }
-        .modal-title-wrapper .copy-btn:hover { background: var(--mint-main); color: var(--bg-deep); box-shadow: 0 0 12px rgba(92, 242, 138, 0.5); }
-
-        .modal-meta { color: var(--mint-light); font-size: 16px; font-weight: 600; margin-bottom: 20px; border-bottom: 1px dashed rgba(92, 242, 138, 0.2); padding-bottom: 15px; }
-        .modal-overview { color: var(--text-main); font-size: 16px; line-height: 1.7; margin-top: 30px; }
-
-        .modal-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; background: rgba(19, 15, 28, 0.5); padding: 25px; border-radius: 16px; border: 1px solid rgba(92, 242, 138, 0.15); }
-        .modal-grid-box { font-size: 15px; color: var(--mint-light); font-weight: 700; background: rgba(34, 24, 54, 0.8); border: 1px solid rgba(92, 242, 138, 0.2); padding: 8px 16px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); display: inline-flex; justify-content: center; align-items: center; gap: 8px; width: fit-content; }
-
-        .grid-item { font-size: 14px; display: flex; flex-direction: column; gap: 8px; }
-        .grid-item.full-width { grid-column: 1 / -1; } 
-        .grid-label { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-family: var(--font-text); font-weight: 800; }
-        .grid-value { color: var(--mint-main); font-weight: 700; font-size: 16px; }
-        
-        .modal-requester-link { cursor: pointer; transition: transform 0.3s; display: inline-flex; flex-direction: column; align-items: flex-start; gap: 4px; }
-        .modal-requester-link:hover { transform: translateX(5px); }
-        .modal-requester-link span { font-family: var(--font-text); font-size: 16px; color: var(--mint-main); transition: color 0.3s; font-weight: 700; }
-        .modal-requester-link span:hover { color: #fff; text-shadow: 0 0 8px rgba(92, 242, 138, 0.6); }
-
-        .steam-link-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: rgba(92, 242, 138, 0.15); color: var(--mint-main); border: 1px solid rgba(92, 242, 138, 0.3); padding: 6px 12px; border-radius: 12px; text-decoration: none; font-family: var(--font-text); font-size: 13px; font-weight: 700; transition: all 0.3s ease; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
-        .steam-link-btn:hover { background: var(--mint-main); color: var(--bg-deep); box-shadow: 0 0 12px rgba(92, 242, 138, 0.5); transform: translateY(-2px); }
-
-        .footer-badge { display: flex; align-items: center; gap: 10px; justify-content: center; margin-top: 30px; padding-bottom: 20px; background: transparent; cursor: pointer; transition: all 0.3s ease; opacity: 0.8; }
-        .footer-badge:hover { opacity: 1; }
-        .footer-badge img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--text-muted); transition: all 0.3s ease; }
-        .footer-badge:hover img { border-color: var(--mint-main); box-shadow: 0 0 12px rgba(92, 242, 138, 0.4); }
-        .footer-badge:hover .creator-name { color: var(--mint-light); }
-        .footer-badge .creator-label { display:block; font-size:10px; font-family: var(--font-text); color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 800; }
-
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-deep); }
-        ::-webkit-scrollbar-thumb { background: var(--mint-dark); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--mint-main); }
-
-        @media (max-width: 768px) {
-            th:nth-child(4), td:nth-child(4) { display: none; }
-            .modal-body { flex-direction: column; margin-top: -60px; padding: 20px; }
-            .modal-poster { width: 140px; margin: 0 auto; }
-            .modal-grid { grid-template-columns: 1fr; }
-            .header-top h1 { font-size: 32px; }
-            .header-top h1::before, .header-top h1::after { display: none; }
-            .modal-title { white-space: normal; }
+        .help-btn:hover {
+            background: var(--mint-main);
+            color: var(--bg-deep);
+            box-shadow: 0 0 20px rgba(92, 242, 138, 0.6);
+            transform: translateY(-3px) scale(1.02);
+            border-color: var(--mint-main);
         }
-        
-        /* 🔥 ЗОЛОТОЕ СВЕЧЕНИЕ НА САЙТЕ ДЛЯ 1000 🔥 */
-        .legendary-table-badge {
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2), inset 0 0 15px #ffd700, 0 0 20px rgba(255, 215, 0, 0.7) !important;
-            border-color: #ffd700 !important;
-            color: #fff !important;
-            text-shadow: 0 0 8px #ffd700 !important;
-            font-weight: 900 !important;
+
+        /* Анимации */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Адаптив для мобильных */
+        @media (max-width: 900px) {
+            .portal-header h1 { font-size: 38px; }
+            .portal-card { width: 100%; max-width: 420px; }
+            .cards-wrapper { flex-direction: column; gap: 30px; }
         }
     </style>
 </head>
 <body>
 
-<div class="main-wrapper">
-    <div class="girl-col">
-        <div class="sticky-box">
-            <img src="girl-left.png" class="girl-img left-img" alt="">
-        </div>
+    <div class="portal-header">
+        <h1>Для Чатика</h1>
+        <p>Выбери хранилище, в которое хочешь заглянуть</p>
     </div>
 
-    <div class="container">
-        <div class="content-wrapper">
-            <div class="header">
-                <div class="creator-badge" onclick="window.open('https://twitch.tv/cherteya', '_blank')">
-                    <img src="https://static-cdn.jtvnw.net/user-default-pictures-uv/41780b5a-def8-11e9-94d9-784f43822e80-profile_image-70x70.png" id="cherteyaAvatar" alt="cherteya">
-                    <div class="creator-info">
-                        <span class="creator-name">cherteya</span>
-                    </div>
-                </div>
-                
-                <div class="header-top">
-                    <h1>Игровая</h1>
-                </div>
-                
-                <div class="controls-panel">
-                    <input type="text" id="searchInput" class="search-box" placeholder="Поиск игры или зрителя..." oninput="applyFilters()">
-                    <select id="userFilter" class="sort-select" onchange="applyFilters()">
-                        <option value="all">Все заказчики</option>
-                    </select>
-                    <!-- 🔥 ИЗМЕНЕННЫЙ БЛОК СОРТИРОВКИ 🔥 -->
-                    <select id="sortSelect" class="sort-select" onchange="applyFilters()">
-                        <option value="oldest">По порядку (По дате заказов)</option>
-                        <option value="newest">Новые заказы</option>
-                        <option value="waiting">В очереди</option>
-                        <option value="playing">Играем сейчас</option>
-                        <option value="watched">Пройдено</option>
-                        <option value="auction">Аукцион</option>
-                        <option value="emotions">Слёзы/Горение</option>
-                    </select>
-                </div>
+    <div class="cards-wrapper">
+        
+        <!-- КАРТОЧКА ИГР -->
+        <a href="https://cherteya.github.io/games/" class="portal-card">
+            <div class="card-img-wrapper">
+                <div class="fallback-icon">🎮</div>
+                <img src="games.png" alt="Игровой Архив" class="card-img" onerror="this.style.opacity='0'">
+                <div class="card-overlay"></div>
             </div>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width: 160px; min-width: 160px;">Постер</th>
-                        <th style="width: 100%;">Описание</th>
-                        <th style="width: 145px; min-width: 145px;">Заказал</th>
-                        <th style="width: 130px; min-width: 130px;">Steam</th>
-                        <th style="width: 135px; min-width: 135px;">Статус</th>
-                    </tr>
-                </thead>
-                <tbody id="table-body">
-                    <tr><td colspan="5" style="text-align: center; padding: 60px; font-size: 20px; color: var(--mint-main); font-family: var(--font-text); font-weight: 700;">Раскрываем сказочные архивы... ✨</td></tr>
-                </tbody>
-            </table>
-
-            <div class="footer-badge" onclick="window.open('https://twitch.tv/MadMan1408', '_blank')">
-                <img src="https://static-cdn.jtvnw.net/user-default-pictures-uv/41780b5a-def8-11e9-94d9-784f43822e80-profile_image-70x70.png" id="madmanAvatar" alt="MadMan1408">
-                <div class="creator-info">
-                    <span class="creator-label">Created by</span>
-                    <span class="creator-name">MadMan1408</span>
-                </div>
+            <div class="card-info">
+                <div class="card-title">Игровая</div>
+                <div class="card-desc">Список всех заказанных и пройденных игр</div>
             </div>
-        </div>
-    </div>
+        </a>
 
-    <div class="girl-col">
-        <div class="sticky-box">
-            <img src="girl-right.png" class="girl-img right-img" alt="">
-        </div>
-    </div>
-</div>
-
-<div class="modal-overlay" id="movieModal" onclick="closeModal(event)">
-    <div class="main-wrapper" style="pointer-events: none; height: 100%;">
-        
-        <div class="modal-girl-col">
-            <img src="girl-left.png" class="modal-girl-img modal-left-img" alt="">
-        </div>
-
-        <div class="modal-content" style="pointer-events: auto; align-self: center;" onclick="event.stopPropagation()">
-            <div class="modal-inner">
-                <div class="close-btn" onclick="closeModal(true)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </div>
-                <div class="modal-hero" id="modalHero"></div>
-                <div class="modal-body">
-                    <div><img id="modalPoster" class="modal-poster" src="" alt="Постер"></div>
-                    <div class="modal-info-main">
-                        <div class="modal-title-wrapper">
-                            <h2 class="modal-title" id="modalTitle">Название</h2>
-                            <button class="copy-btn" id="modalCopyBtn" onclick="copyMovieNameFromModal()" title="Скопировать имя">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
-                            </button>
-                            <div id="modalBadges" style="display: flex; gap: 8px; margin-left: 10px;"></div>
-                        </div>
-                        <div class="modal-meta" id="modalMeta">2023 ✧ PC, PS5</div>
-                        
-                        <div class="modal-grid">
-                            <div class="grid-item">
-                                <div class="grid-label">Заказал</div>
-                                <div class="grid-value modal-requester-link" id="modalRequester" title="Перейти на канал"></div>
-                            </div>
-                            <div class="grid-item">
-                                <div class="grid-label">День заказа</div>
-                                <div id="modalDateReq"></div>
-                            </div>
-                            <div class="grid-item">
-                                <div class="grid-label">День прохождения</div>
-                                <div id="modalDateWatched"></div>
-                            </div>
-                            <div class="grid-item full-width">
-                                <div class="grid-label">Разработчик / Издатель</div>
-                                <div class="grid-value" id="modalStudios" style="color: var(--text-muted); font-weight: normal;">Архив скрыт</div>
-                            </div>
-                        </div>
-
-                        <div class="modal-overview" id="modalOverview">Описание игры...</div>
-
-                    </div>
-                </div>
+        <!-- КАРТОЧКА ФИЛЬМОВ -->
+        <a href="https://cherteya.github.io/kino/" class="portal-card">
+            <div class="card-img-wrapper">
+                <div class="fallback-icon">🍿</div>
+                <img src="movies.png" alt="Кино Архив" class="card-img" onerror="this.style.opacity='0'">
+                <div class="card-overlay"></div>
             </div>
-        </div>
-        
-        <div class="modal-girl-col">
-            <img src="girl-right.png" class="modal-girl-img modal-right-img" alt="">
-        </div>
+            <div class="card-info">
+                <div class="card-title">Кино и Сериалы</div>
+                <div class="card-desc">Список всех заказанных и просмотренных фильмов</div>
+            </div>
+        </a>
 
     </div>
-</div>
 
-<script>
-    let rawMoviesData = []; 
-    let currentViewData = []; 
-    let currentModalMovie = null; 
+    <!-- КНОПКА ИНСТРУКЦИИ -->
+    <a href="https://cherteya.github.io/help/" class="help-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+        Инструкция
+    </a>
 
-    const fallbackImage = "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='185' height='278' viewBox='0 0 185 278'%3E%3Crect width='185' height='278' fill='%23221836'/%3E%3Cpath d='M92.5 130c19.3 0 35-15.7 35-35s-15.7-35-35-35-35 15.7-35 35 15.7 35 35 35zm0 15c-23.3 0-70 11.7-70 35v25h140v-25c0-23.3-46.7-35-70-35z' fill='%2338255c'/%3E%3C/svg%3E";
-    const fallbackPoster = "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='750' viewBox='0 0 500 750'%3E%3Crect width='500' height='750' fill='%23221836'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='30' fill='%235cf28a'%3EИгра не найдена%3C/text%3E%3C/svg%3E";
-
-    function escapeHTML(str) {
-        if (!str) return '';
-        return String(str).replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag]));
-    }
-
-    const savedSortMode = localStorage.getItem('gameSortMode');
-    if (savedSortMode) document.getElementById('sortSelect').value = savedSortMode;
-
-    function getSafePoster(url) { return (!url || url.includes('via.placeholder.com')) ? fallbackPoster : url; }
-
-    function copyTextToClipboard(text, btnElement) {
-        navigator.clipboard.writeText(text).then(() => {
-            if (btnElement) {
-                const originalHTML = btnElement.innerHTML;
-                btnElement.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
-                btnElement.classList.add('copied');
-                setTimeout(() => { btnElement.innerHTML = originalHTML; btnElement.classList.remove('copied'); }, 1500);
-            }
-        });
-    }
-
-    function copyMovieNameFromTable(event, title, year, btnElement) {
-        event.stopPropagation();
-        copyTextToClipboard(`${title} ${year}`, btnElement);
-    }
-    function copyMovieNameFromModal() {
-        if (currentModalMovie) copyTextToClipboard(`${currentModalMovie.title || ''} ${currentModalMovie.year || ''}`, document.getElementById('modalCopyBtn'));
-    }
-
-    async function loadCreatorAvatars() {
-        try {
-            const res1 = await fetch('https://api.ivr.fi/v2/twitch/user?login=cherteya');
-            const data1 = await res1.json();
-            if (data1 && data1.length > 0 && data1[0].logo) {
-                const pAv = document.getElementById('cherteyaAvatar');
-                if(pAv) pAv.src = data1[0].logo.replace('300x300', '150x150');
-            }
-            
-            const res2 = await fetch('https://api.ivr.fi/v2/twitch/user?login=madman1408');
-            const data2 = await res2.json();
-            if (data2 && data2.length > 0 && data2[0].logo) {
-                const mAv = document.getElementById('madmanAvatar');
-                if(mAv) mAv.src = data2[0].logo.replace('300x300', '150x150');
-            }
-        } catch (e) { }
-    }
-    loadCreatorAvatars();
-
-    function stringToColor(str) {
-        let hash = 0;
-        for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
-        const h = Math.abs(hash) % 360; const s = 70; const l = 75;
-        return `hsl(${h}, ${s}%, ${l}%)`;
-    }
-    
-    function getRatingColor(rating) {
-        if (!rating) return 'var(--mint-main)';
-        const r = parseFloat(rating);
-        if (isNaN(r)) return 'var(--mint-main)';
-        
-        let hue = ((r - 1) / 9) * 140; 
-        if (hue < 0) hue = 0;
-        if (hue > 140) hue = 140;
-        
-        return `hsl(${hue}, 80%, 65%)`;
-    }
-
-    function getInitials(name) { return (name || '??').replace('@', '').trim().substring(0, 1).toUpperCase(); }
-
-    function parseDateObj(dateStr) {
-        if (!dateStr || typeof dateStr !== 'string') return 0;
-        const cleanDate = dateStr.split(' ')[0];
-        const dmy = cleanDate.split('.'); 
-        if (dmy.length !== 3) return 0;
-        return new Date(dmy[2], dmy[1]-1, dmy[0]).getTime();
-    }
-
-    async function loadMovies() {
-        const tbody = document.getElementById('table-body');
-        try {
-            const response = await fetch('RequestedGames.json?t=' + new Date().getTime());
-            if (!response.ok) throw new Error();
-            const data = await response.json();
-            rawMoviesData = [];
-            
-            if (Array.isArray(data)) {
-                data.forEach(movie => {
-                    const cleanReq = movie.dateRequested ? movie.dateRequested.split(' ')[0] : '';
-                    const cleanWatch = movie.dateWatched ? movie.dateWatched.split(' ')[0] : '';
-                    rawMoviesData.push({ ...movie, requestedBy: movie.requestedBy || 'Аноним', dateRequested: cleanReq, dateWatched: cleanWatch, parsedDate: parseDateObj(movie.dateRequested) });
-                });
-            } else if (typeof data === 'object' && data !== null) {
-                for (const user in data) {
-                    if (user === "_metadata_") continue; 
-                    if (Array.isArray(data[user])) {
-                        data[user].forEach(movie => {
-                            const cleanReq = movie.dateRequested ? movie.dateRequested.split(' ')[0] : '';
-                            const cleanWatch = movie.dateWatched ? movie.dateWatched.split(' ')[0] : '';
-                            rawMoviesData.push({ ...movie, requestedBy: user, dateRequested: cleanReq, dateWatched: cleanWatch, parsedDate: parseDateObj(movie.dateRequested) });
-                        });
-                    }
-                }
-            }
-            populateUserFilter(); applyFilters();
-        } catch (error) {
-            tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 40px; color: var(--cute-pink); font-family: var(--font-text); font-weight: 700; font-size: 20px;">Игровые архивы пока недоступны (Ошибка)</td></tr>`;
-        }
-    }
-
-    function populateUserFilter() {
-        const filterEl = document.getElementById('userFilter');
-        if (!filterEl) return;
-        filterEl.innerHTML = '<option value="all">Все заказчики</option>';
-        const uniqueUsers = [...new Set(rawMoviesData.map(m => m.requestedBy))].sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
-        uniqueUsers.forEach(u => {
-            const opt = document.createElement('option'); opt.value = u.toLowerCase(); opt.textContent = `✨ ${u.replace('@', '').trim()}`; filterEl.appendChild(opt);
-        });
-    }
-
-    // 🔥 ОБНОВЛЕННАЯ ЛОГИКА ФИЛЬТРАЦИИ И СОРТИРОВКИ 🔥
-    function applyFilters() {
-        const searchQuery = document.getElementById('searchInput').value.toLowerCase();
-        const sortMode = document.getElementById('sortSelect').value;
-        const userFilterVal = document.getElementById('userFilter').value;
-        localStorage.setItem('gameSortMode', sortMode);
-        
-        let filtered = [...rawMoviesData];
-        if (userFilterVal !== 'all') filtered = filtered.filter(m => m.requestedBy.toLowerCase() === userFilterVal);
-        if (searchQuery.trim() !== '') filtered = filtered.filter(m => (m.title && m.title.toLowerCase().includes(searchQuery)) || (m.requestedBy && m.requestedBy.toLowerCase().includes(searchQuery)));
-
-        if (sortMode === 'waiting') { filtered = filtered.filter(m => m.status === 'В очереди').sort((a, b) => a.parsedDate - b.parsedDate); } 
-        else if (sortMode === 'playing') { filtered = filtered.filter(m => m.status === 'Играем').sort((a, b) => a.parsedDate - b.parsedDate); }
-        else if (sortMode === 'watched') { filtered = filtered.filter(m => m.status === 'Пройдено').sort((a, b) => a.parsedDate - b.parsedDate); }
-        else if (sortMode === 'auction') { filtered = filtered.filter(m => m.isAuction === true).sort((a, b) => a.parsedDate - b.parsedDate); }
-        else if (sortMode === 'emotions') { filtered = filtered.filter(m => m.cried === true || m.burned === true).sort((a, b) => a.parsedDate - b.parsedDate); }
-        else if (sortMode === 'newest') { filtered.sort((a, b) => b.parsedDate - a.parsedDate); }
-        else if (sortMode === 'oldest') { filtered.sort((a, b) => a.parsedDate - b.parsedDate); }
-        currentViewData = filtered; renderTable(currentViewData);
-    }
-
-    function renderTable(dataArray) {
-        const tbody = document.getElementById('table-body');
-        tbody.innerHTML = '';
-        if (dataArray.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 60px; font-size: 20px; color: var(--text-muted); font-family: var(--font-text); font-weight: 700;">В архивах пусто ✨</td></tr>';
-            return;
-        }
-
-        dataArray.forEach((movie, index) => {
-            const cleanNick = movie.requestedBy.replace('@', '').trim();
-            const tr = document.createElement('tr');
-            tr.className = 'movie-row';
-            tr.onclick = () => openModal(index); 
-            
-            const posterUrl = getSafePoster(movie.poster);
-            
-            const isWatched = movie.status === "Пройдено";
-            const isDropped = movie.status === "Бросила" || movie.status === "Брошено";
-            const isPlaying = movie.status === "Играем";
-
-            let statusText = '';
-            if (isWatched) {
-                statusText = `<span class="badge-status">ПРОЙДЕНО</span>`;
-            } else if (isDropped) {
-                statusText = `<span class="badge-status" style="background: #ff4a4a; color: #fff; box-shadow: 0 2px 8px rgba(255, 74, 74, 0.4);">БРОСИЛА</span>`;
-            } else if (isPlaying) {
-                statusText = `<span class="badge-status" style="background: #ffd700; color: #130f1c; box-shadow: 0 2px 8px rgba(255, 219, 88, 0.4);">ИГРАЕМ</span>`;
-            } else {
-                statusText = `<span class="badge-status" style="background: rgba(92,242,138,0.2); color: var(--mint-light); box-shadow: none;">В ОЧЕРЕДИ</span>`;
-            }
-            
-            let watchedDetails = '';
-            if ((isWatched || isDropped) && movie.dateWatched) {
-                watchedDetails += `<div class="date-badge" style="margin-top: 0; width: fit-content;">${movie.dateWatched}</div>`;
-                
-                if (movie.ourRating && movie.ourRating !== "Без оценки") {
-                    const parsedRating = parseFloat(movie.ourRating);
-                    if (parsedRating === 1000) {
-                        watchedDetails += `<div class="date-badge legendary-table-badge" style="margin-top: 0; width: fit-content;">🏆 Оценка: 1000</div>`;
-                    } else {
-                        const rColor = getRatingColor(movie.ourRating);
-                        watchedDetails += `<div class="date-badge" style="margin-top: 0; width: fit-content; color: ${rColor}; border-color: ${rColor}; box-shadow: 0 0 10px rgba(0,0,0,0.5);">Наша Оценка: ${movie.ourRating}</div>`;
-                    }
-                }
-            }
-            
-            let tagsDetails = '';
-            if (movie.cried) {
-                tagsDetails += `<div class="date-badge" style="margin-top: 0; width: fit-content; font-family: var(--font-text); font-size: 13px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="var(--mint-light)" stroke="var(--mint-light)" stroke-width="1" style="margin-right:4px;"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg> Слёзы</div>`;
-            }
-            if (movie.burned) {
-                tagsDetails += `<div class="date-badge" style="margin-top: 0; width: fit-content; font-family: var(--font-text); font-size: 13px; color: #ff6b6b; border-color: #ff6b6b; box-shadow: 0 0 8px rgba(255,107,107,0.3);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg> Горение</div>`;
-            }
-            
-            if (tagsDetails) {
-                watchedDetails += `<div style="display:flex; gap:6px; margin-top:4px; flex-wrap: wrap; justify-content: center;">${tagsDetails}</div>`;
-            }
-
-            const watchedDateHTML = watchedDetails ? `<div style="display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 8px;">${watchedDetails}</div>` : '';
-
-            const idBadge = `<span class="outline-badge">ID №${movie.id || 0}</span>`;
-            const typeLabel = `<span class="content-type-badge">${escapeHTML(movie.type || 'Игра')}</span>`;
-            
-            const cleanTitle = escapeHTML(movie.title || 'Безымянный');
-            const cleanOverview = escapeHTML(movie.overview || '');
-            const safeTitle = (movie.title || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
-
-            let displayStudios = movie.studios && movie.studios !== "Нет данных" ? movie.studios : "";
-            const studiosHTML = displayStudios ? `<div class="movie-studios-list">${escapeHTML(displayStudios)}</div>` : '';
-
-            let steamButtonHTML = '';
-            if (movie.steamAppId && !movie.steamAppId.startsWith('IGDB_')) {
-                steamButtonHTML = `
-                <a href="https://store.steampowered.com/app/${movie.steamAppId}/" target="_blank" class="steam-link-btn" onclick="event.stopPropagation();">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.366 0 0 5.361 0 11.979c0 4.673 2.666 8.71 6.55 10.741l3.528-5.111a4.237 4.237 0 0 1-1.637-2.61l-3.666 1.055c-.012-.08-.02-.158-.02-.24 0-2.483 2.015-4.5 4.5-4.5 1.956 0 3.614 1.25 4.23 2.996l4.636-1.921c.026-.145.041-.295.041-.45 0-2.656-2.155-4.81-4.81-4.81-2.656 0-4.812 2.154-4.812 4.81 0 .226.02.446.052.661l-3.374.97a3.023 3.023 0 0 0 .153-1.042c0-1.688 1.37-3.056 3.056-3.056 1.687 0 3.057 1.368 3.057 3.056 0 1.62-1.265 2.946-2.857 3.045l-3.606 5.228C10.71 23.822 11.336 24 11.98 24 18.602 24 24 18.634 24 11.979 24 5.361 18.602 0 11.979 0z"/></svg>
-                    В Steam
-                </a>`;
-            } else {
-                steamButtonHTML = `<span style="color: var(--text-muted); font-size: 12px; font-weight: 700;">Нет в Steam</span>`;
-            }
-
-            const userColor = stringToColor(cleanNick);
-            let avatarMarkup = movie.userAvatar && movie.userAvatar.startsWith('http') 
-                ? `<img src="${movie.userAvatar}" class="req-avatar" alt="">` 
-                : `<div class="req-avatar" style="background-color: ${userColor}; border-color: ${userColor};">${getInitials(cleanNick)}</div>`;
-
-            const auctionHTML = movie.isAuction ? `<div style="color: var(--warm-star); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; margin-top: 8px;">✦ Дар Аукциона ✦</div>` : '';
-
-            tr.innerHTML = `
-                <td><div class="poster-wrapper"><img src="${posterUrl}" alt=""></div></td>
-                <td>
-                    <div class="movie-info">
-                        <div class="movie-header">
-                            <span class="movie-title">${cleanTitle}</span>
-                            <span class="movie-year">${movie.year || '----'}</span>
-                            <button class="copy-btn" onclick="copyMovieNameFromTable(event, '${safeTitle}', '${movie.year || ''}', this)" title="Скопировать">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
-                            </button>
-                        </div>
-                        <div class="badges-container">
-                            ${typeLabel} ${idBadge}
-                        </div>
-                        <div class="movie-genres">${escapeHTML(movie.genres || '')}</div>
-                        ${studiosHTML}
-                        <div class="movie-overview-wrapper"><div class="movie-overview-text">${cleanOverview}</div></div>
-                    </div>
-                </td>
-                <td style="vertical-align: top;">
-                    <div style="display: flex; flex-direction: column; align-items: center;">
-                        <div class="requester-badge" onclick="window.open('https://twitch.tv/${cleanNick}', '_blank'); event.stopPropagation();">
-                            ${avatarMarkup}
-                            <span class="req-name">${cleanNick}</span>
-                        </div>
-                        ${movie.dateRequested ? `<div class="date-badge">${movie.dateRequested}</div>` : ''}
-                        ${auctionHTML}
-                    </div>
-                </td>
-                <td style="vertical-align: top;">
-                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
-                        ${steamButtonHTML}
-                    </div>
-                </td>
-                <td style="vertical-align: top;">
-                    <div style="display: flex; flex-direction: column; align-items: center;">
-                        ${statusText}
-                        ${watchedDateHTML}
-                    </div>
-                </td>
-            `;
-            tbody.appendChild(tr);
-        });
-
-        // 🔥 АВТО-ПОДГОНКА ШРИФТОВ В ТАБЛИЦЕ ДЛЯ ДЛИННЫХ НАЗВАНИЙ 🔥
-        setTimeout(() => {
-            document.querySelectorAll('.movie-row .movie-title').forEach(titleEl => {
-                let currentSize = 24;
-                titleEl.style.fontSize = currentSize + "px";
-                while (titleEl.scrollWidth > titleEl.clientWidth && currentSize > 12) {
-                    currentSize -= 1;
-                    titleEl.style.fontSize = currentSize + "px";
-                }
-            });
-        }, 10);
-    }
-
-    function openModal(index) {
-        const movie = currentViewData[index]; currentModalMovie = movie; 
-        const modal = document.getElementById('movieModal');
-        
-        const modalContent = modal.querySelector('.modal-content');
-        if(modalContent) { setTimeout(() => { modalContent.scrollTop = 0; }, 10); }
-        
-        const heroEl = document.getElementById('modalHero');
-        if (movie.backdrop) { heroEl.style.backgroundImage = `url('${movie.backdrop}')`; heroEl.style.display = 'block'; } 
-        else { heroEl.style.display = 'none'; }
-
-        document.getElementById('modalPoster').src = getSafePoster(movie.poster);
-        
-        const titleEl = document.getElementById('modalTitle');
-        titleEl.textContent = movie.title || 'Безымянный';
-        
-        // 🔥 АВТО-ПОДГОНКА ШРИФТОВ В МОДАЛКЕ 🔥
-        titleEl.style.fontSize = "34px"; 
-        setTimeout(() => {
-            let currentSize = 34;
-            while (titleEl.scrollWidth > titleEl.clientWidth && currentSize > 14) {
-                currentSize -= 1;
-                titleEl.style.fontSize = currentSize + "px";
-            }
-        }, 10);
-        
-        let badgesHtml = `<span class="outline-badge">ID №${movie.id || 0}</span>`;
-        document.getElementById('modalBadges').innerHTML = badgesHtml;
-        
-        let platformsText = movie.platforms || "PC";
-        let metaText = `${movie.year || '----'} ✧ ${escapeHTML(movie.type || 'Игра')} ✧ ${platformsText}`;
-        
-        document.getElementById('modalMeta').innerHTML = metaText;
-        document.getElementById('modalOverview').textContent = movie.detailedDesc || movie.overview || 'Данные об игре утеряны...';
-        
-        const dateReqEl = document.getElementById('modalDateReq');
-        if (movie.dateRequested) {
-             dateReqEl.innerHTML = `<div class="modal-grid-box">${movie.dateRequested}</div>`;
-        } else {
-             dateReqEl.innerHTML = `<div class="grid-value" style="color: var(--text-muted); font-weight: normal;">Нет данных</div>`;
-        }
-        
-        const dateWatchedEl = document.getElementById('modalDateWatched');
-        
-        const isWatched = movie.status === "Пройдено";
-        const isDropped = movie.status === "Бросила" || movie.status === "Брошено";
-        const isPlaying = movie.status === "Играем";
-        
-        // 🔥 ПЛАШКА ДАТЫ/ОЦЕНКИ 🔥
-        let dateHtml = '';
-        if ((isWatched || isDropped) && movie.dateWatched) {
-             dateHtml += `<div class="modal-grid-box" style="margin-top: 0;">${movie.dateWatched}</div>`;
-             
-             if (movie.ourRating && movie.ourRating !== "Без оценки") {
-                 const parsedRating = parseFloat(movie.ourRating);
-                 if (parsedRating === 1000) {
-                     dateHtml += `<div class="modal-grid-box legendary-table-badge" style="margin-top: 0;">🏆 Оценка: 1000</div>`;
-                 } else {
-                     const rColor = getRatingColor(movie.ourRating);
-                     dateHtml += `<div class="modal-grid-box" style="margin-top: 0; color: ${rColor}; border-color: ${rColor};">Наша Оценка: ${movie.ourRating}</div>`;
-                 }
-             }
-        } else if (isPlaying) {
-             dateHtml += `<div class="modal-grid-box" style="background: rgba(255,219,88,0.1); border-color: transparent; color: #ffdb58; margin-top: 0;">В процессе...</div>`;
-        } else {
-             dateHtml += `<div class="modal-grid-box" style="background: rgba(92,242,138,0.1); border-color: transparent; margin-top: 0;">Еще в очереди</div>`;
-        }
-
-        // 🔥 МЕТКИ СЛЕЗ И ГОРЕНИЯ В МОДАЛКЕ ВНЕ ЗАВИСИМОСТИ ОТ СТАТУСА 🔥
-        if (movie.cried) {
-            dateHtml += `<div class="modal-grid-box" style="margin-top: 0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="var(--mint-light)" stroke="var(--mint-light)" stroke-width="1" style="margin-right:4px;"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg> Слёзы</div>`;
-        }
-        if (movie.burned) {
-            dateHtml += `<div class="modal-grid-box" style="margin-top: 0; color: #ff6b6b; border-color: #ff6b6b; box-shadow: 0 0 8px rgba(255,107,107,0.3);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg> Горение</div>`;
-        }
-
-        dateWatchedEl.innerHTML = `<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px;">${dateHtml}</div>`;
-
-        const cleanNick = movie.requestedBy.replace('@', '').trim();
-        const requesterEl = document.getElementById('modalRequester');
-        
-        const userColor = stringToColor(cleanNick);
-        let avatarMarkup = movie.userAvatar && movie.userAvatar.startsWith('http') 
-            ? `<img src="${movie.userAvatar}" class="req-avatar" style="width:32px; height:32px; border-width:2px; border-radius:50%; object-fit:cover; margin-right:10px;" alt="">` 
-            : `<div class="req-avatar" style="width:32px; height:32px; font-size:14px; border-width:2px; background-color: ${userColor}; border-color: ${userColor}; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-right:10px; color:var(--bg-deep); font-weight:800;">${getInitials(cleanNick)}</div>`;
-            
-        // 🔥 МЕТКА АУКЦИОНА В МОДАЛКЕ ПОД НИКОМ 🔥
-        let reqInner = `<div style="display:flex; align-items:center;">${avatarMarkup}<span>${cleanNick}</span></div>`;
-        if (movie.isAuction) {
-            reqInner += `<div style="color: var(--warm-star); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; margin-top: 4px; text-shadow: 0 0 5px rgba(0,0,0,0.8);">✦ Дар Аукциона ✦</div>`;
-        }
-        
-        requesterEl.innerHTML = `<div style="display:flex; flex-direction:column; align-items:flex-start;">${reqInner}</div>`;
-        requesterEl.onclick = () => window.open(`https://twitch.tv/${cleanNick}`, '_blank');
-
-        document.getElementById('modalStudios').textContent = movie.studios === "Нет данных" || !movie.studios ? "Архив скрыт" : movie.studios;
-
-        modal.classList.add('active'); document.body.style.overflow = 'hidden'; 
-    }
-
-    function closeModal(arg) {
-        if (arg === true || (arg && arg.target && arg.target.id === 'movieModal')) {
-            document.getElementById('movieModal').classList.remove('active'); 
-            document.body.style.overflow = ''; 
-        }
-    }
-    loadMovies();
-</script>
 </body>
 </html>
